@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+    <script src="../src/models/radialHistogram.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<svg id="test1"></svg>
+
+<script>
+    var data = d3.range(24).map(function(d,i) { return {key:d,value:Math.random()*200}});
+    nv.addGraph({
+        generate: function() {
+            var width = nv.utils.windowSize().width,
+                height = nv.utils.windowSize().height;
+
+            var chart = nv.models.radialHistogram()
+                .width(width)
+                .height(height)
+                .colorRange(['lightgreen', 'darkgreen'])
+                .innerRadius(5)
+                .outerRadius(80)
+                .offset(15)
+                .radialRange([20,60])
+                .margin({top: 20, right: 20, bottom: 20, left: 20});
+        
+            //chart.dispatch.on('customHover', function(){
+            //    console.log('render complete');
+            //});
+
+            /*d3.select('#test1')
+                .attr('width', width)
+                .attr('height', height)
+                .datum(data)
+                .call(chart);*/
+            d3.select('#test1')
+              .append('svg')
+              .attr('width', width)
+              .attr('height', height)
+              .append('g')
+              .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')')
+              .datum(data)
+              .call(chart);
+
+            return chart;
+        },
+        callback: function(graph) {
+            window.onresize = function() {
+                var width = nv.utils.windowSize().width - 40,
+                    height = nv.utils.windowSize().height - 40,
+                    margin = graph.margin();
+
+                if (width < margin.left + margin.right + 20)
+                    width = margin.left + margin.right + 20;
+
+                if (height < margin.top + margin.bottom + 20)
+                    height = margin.top + margin.bottom + 20;
+
+                graph.width(width).height(height);
+
+                d3.select('#test1')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .call(graph);
+            };
+        }
+    });
+    
+
+    function sinAndCos() {
+        var sin = [],
+            cos = [];
+
+        for (var i = 0; i < 100; i++) {
+            sin.push({x: i, y: Math.sin(i/10)});
+            cos.push({x: i, y: .5 * Math.cos(i/10)});
+        }
+
+        return [
+            {
+                values: sin,
+                key: "Sine Wave",
+                color: "#ff7f0e"
+            },
+            {
+                values: cos,
+                key: "Cosine Wave",
+                color: "#2ca02c",
+                strokeWidth: 3
+            }
+        ];
+    }
+
+</script>
+</body>
+</html>
