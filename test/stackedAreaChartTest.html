@@ -24,6 +24,7 @@
   <div class='chart half' id='chart8'>No data<svg></svg></div>
   <div class='chart half' id='chart9'>Data is all negative<svg></svg></div>
   <div class='chart half' id='chart10'>Data as object and interActiveGuideline showing hours<button>Select chart</button><svg></svg></div>
+  <div class='chart half' id='chart11'>Data as object interActiveGuideline = false<button>Select chart</button><svg></svg></div>
 
 <script src="testScript.js"></script>
 <script>
@@ -359,5 +360,6 @@ defaultChartConfig("chart6", totalRandom(), false);
 defaultChartConfig("chart7", nPoints(),false);
 defaultChartConfig("chart8", []);
 defaultChartConfig("chart9", histcatexpshort,true);
-defaultChartConfigObject("chart10", histcatexpshort_object,true)
+defaultChartConfigObject("chart10", histcatexpshort_object,true);
+defaultChartConfigObject("chart11", histcatexpshort_object,false);
 </script>
