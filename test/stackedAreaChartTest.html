@@ -23,6 +23,7 @@
   <div class='chart half' id='chart7'>Less than four points, old tooltips<button>Select chart</button><svg></svg></div>
   <div class='chart half' id='chart8'>No data<svg></svg></div>
   <div class='chart half' id='chart9'>Data is all negative<svg></svg></div>
+  <div class='chart half' id='chart10'>Data as object and interActiveGuideline showing hours<button>Select chart</button><svg></svg></div>
 
 <script src="testScript.js"></script>
 <script>
@@ -214,6 +215,21 @@ var histcatexpshort = [
   }
 ];
 
+var histcatexpshort_object = [
+  {
+    "key" : "Consumer Staples" ,
+    "values" : [ {x: 1138683600000 , y:1000} , {x: 1141102800000 , y:50} , {x:  1143781200000 , y:200} , {x:  1146369600000 , y:3000} , {x:  1149048000000 , y:10} ]
+  } ,
+  {
+    "key" : "Consumer Discretionary" ,
+    "values" : [ {x:  1138683600000 , y:0.62238434102863} , {x:  1141102800000 , y:0.61484565039024} , {x:  1143781200000 , y:1.0769367918668} , {x:  1146369600000 , y:1.2221156604129} , {x:  1149048000000 , y:1.2434858263377} ]
+  },
+  {
+    "key" : "new" ,
+    "values" : [ {x:  1138683600000 , y:1.62238434102863} , {x:  1141102800000 , y:2.61484565039024} , {x:  1143781200000 , y:1.0769367918668} , {x:  1146369600000 , y:1.2221156604129} , {x:  1149048000000 , y:1.2434858263377} ]
+  }
+];
+
 function totalRandom() {
   var rval = [];
   for(var n=1; n <= 2; n++) {
@@ -276,6 +292,34 @@ function defaultChartConfig(container, data, useGuideline) {
     return chart;
   });
 }
+function defaultChartConfigObject(container, data, useGuideline) {
+  if (useGuideline === undefined) useGuideline = true;
+  nv.addGraph(function() {
+    var chart;
+    chart = nv.models.stackedAreaChart()
+                  .useInteractiveGuideline(useGuideline)
+                  .x(function(d) { return d.x })
+                  .y(function(d) { return d.y })
+                  .color(keyColor)
+                    ;
+
+    chart.xAxis
+        .tickFormat(function(d) { return d3.time.format("%d-%b-%y %H")(new Date(d)) });
+
+    chart.yAxis
+        .tickFormat(d3.format(',.2f'));
+
+    d3.select('#' + container + ' svg')
+          .datum(data)
+        .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+
+    return chart;
+  });
+}
 
 //Chart with old tooltip format.
 nv.addGraph(function() {
@@ -315,4 +359,5 @@ defaultChartConfig("chart6", totalRandom(), false);
 defaultChartConfig("chart7", nPoints(),false);
 defaultChartConfig("chart8", []);
 defaultChartConfig("chart9", histcatexpshort,true);
+defaultChartConfigObject("chart10", histcatexpshort_object,true)
 </script>

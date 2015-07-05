@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>testing for getData</title>
+<link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+<style>
+  text {
+    font: 12px sans-serif;
+  }
+  svg {
+    display: block;
+  }
+  html, body, svg {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+  }
+  .third {
+    height: 500px;
+  }
+</style>
+</head>
+<body>
+
+<div id="chart1" class="third">
+  <svg></svg>
+</div>
+
+	
+</body>
+<!-- <script src="d3_v355.min.js" charset="utf-8"></script> -->
+<script src="../bower_components/d3/d3.js"></script>
+<script src="jquery-2.1.4.min.js"></script>
+<script src="../build/nv.d3.js"></script>
+<!--<script src="../nvd3/src/tooltip.js"></script>
+<script src="../nvd3/src/utils.js"></script>
+<script src="../nvd3/src/interactiveLayer.js"></script>
+<script src="../nvd3/src/models/legend.js"></script>
+<script src="../nvd3/src/models/axis.js"></script>
+<script src="../nvd3/src/models/line.js"></script>
+<script src="../nvd3/src/models/lineChart.js"></script>
+<script src="../nvd3/src/models/linePlusBarChart.js"></script>
+<script src="../nvd3/src/models/stackedAreaChart.js"></script>-->
+<script src="getData_1.js"></script>
+
+<script>
+/***********************************************************************************************************************************
+************************************************************ INIT CHARTS ***********************************************************/
+var charts = [
+	//chType:'metric'
+	{name:"chart1",
+		type:"stackedAreaChart",
+		height: 400,
+        width: 600,
+		margin:{top:30,right:50,bottom:50,left:50},
+		forceY:[98,100],
+		decimal:',f',
+		chType:'object',
+		kpi:['VS.R.AE.AMR','VS.R.SECS.AMR','Third.Col','Third.Col1']}
+];
+
+/***********************************************************************************************************************************
+************************************************************ MAKE CHARTS ***********************************************************/
+var myStartThis = new StartThis();
+myStartThis.set("cb",myCallBack);
+myStartThis.set("charts",charts);
+myStartThis.set("dropDownDomID","filterDiv");
+myStartThis.set("csv_file","test_data_set.csv");
+myStartThis.getMyData();
+
+</script>
