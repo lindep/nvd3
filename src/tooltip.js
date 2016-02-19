@@ -259,7 +259,7 @@ nv.models.tooltip = function() {
                    .selectAll("div, table, td, tr").classed(nvPointerEventsClass, true)
                    .classed(nvPointerEventsClass, true);
 
-            tooltip.exit().remove()
+            //tooltip.exit().remove()
         }
     }
 
